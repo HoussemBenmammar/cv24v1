@@ -7,4 +7,4 @@ public class IndexController {
 public String index() {
 return "Hello cv24 !";
 }
-}
+}			
