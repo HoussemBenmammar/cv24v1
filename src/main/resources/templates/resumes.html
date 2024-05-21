@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>List of Resumes</title>
+        <link rel="stylesheet" href="/css/style.css"> <!-- Assuming you have a CSS file for styling -->
+</head>
+<body>
+    <h1>List of Resumes</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Genre</th>
+                <th>Prénom</th>
+                <th>Nom</th>
+                <th>Objectif</th>
+                <th>Diplôme le plus élevé</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="resume : ${resumes}">
+                <td th:text="${resume.id}"></td>
+                <td th:text="${resume.genre}"></td>
+                <td th:text="${resume.prenom}"></td>
+                <td th:text="${resume.nom}"></td>
+                <td th:text="${resume.objectif}"></td>
+                <td th:text="${resume.diplomeLePlusEleve}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
