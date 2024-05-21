@@ -6,11 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 import fr.univrouen.cv24v1.dto.AllResumeDTO;
 import fr.univrouen.cv24v1.dto.ResumeDTO;
+import fr.univrouen.cv24v1.exceptions.ErrorDetail;
 import fr.univrouen.cv24v1.service.ResumeService;
 
 @Controller
@@ -37,11 +39,10 @@ public class ResumeGetController {
     public ResponseEntity<?> getResumeByIdXml(@PathVariable String id) {
         try {
             AllResumeDTO resume = resumeService.getResumeById(id);
-            
             return ResponseEntity.ok(resume);
         } catch (Exception e) {
-            String errorResponse = String.format("<error><id>%s</id><status>ERROR</status><message>Resume not found</message></error>", id);
-            return ResponseEntity.badRequest().body(errorResponse);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ErrorDetail(id, "ERROR", "Resume not found"));
         }
     }
 

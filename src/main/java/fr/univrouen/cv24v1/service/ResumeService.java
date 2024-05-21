@@ -40,12 +40,39 @@ public class ResumeService {
     }
 
     private AllResumeDTO mapToAllResumeDTO(Resume resume) {
-        // Mapping logic, map all fields
-        AllResumeDTO dto = new AllResumeDTO(/* parameters mapping fields from resume to dto */);
-        // Implement field mapping here, similar to previous example
+        AllResumeDTO dto = new AllResumeDTO();
+        dto.setIdentite(new AllResumeDTO.Identite(
+            resume.getIdentite().getGenre(),
+            resume.getIdentite().getNom(),
+            resume.getIdentite().getPrenom(),
+            resume.getIdentite().getTel(),
+            resume.getIdentite().getMel()
+        ));
+        dto.setObjectif(new AllResumeDTO.Objectif(
+            resume.getObjectif().getStatut(),
+            resume.getObjectif().getDescription()
+        ));
+        dto.setExperiences(resume.getProf().stream()
+            .map(p -> new AllResumeDTO.ExperienceDTO(p.getDatedeb(), p.getDatefin(), p.getTitre()))
+            .collect(Collectors.toList()));
+        dto.setCompetences(new AllResumeDTO.Competences(
+            resume.getCompetences().getDiplomes().stream()
+                .map(e -> new AllResumeDTO.EducationDTO(e.getDate(), e.getInstitut(), e.getNiveau()))
+                .collect(Collectors.toList()),
+            resume.getCompetences().getCertifications().stream()
+                .map(c -> new AllResumeDTO.CertificationDTO(c.getDatedeb(), c.getDatefin(), c.getTitre()))
+                .collect(Collectors.toList())
+        ));
+        dto.setDivers(new AllResumeDTO.Divers(
+            resume.getDivers().getLangues().stream()
+                .map(l -> new AllResumeDTO.LanguageDTO(l.getLang(), l.getCert(), l.getNivs()))
+                .collect(Collectors.toList()),
+            resume.getDivers().getAutres().stream()
+                .map(o -> new AllResumeDTO.OtherDTO(o.getTitre(), o.getComment()))
+                .collect(Collectors.toList())
+        ));
         return dto;
     }
-    
    
 
 }
