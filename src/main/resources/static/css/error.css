@@ -1,0 +1,29 @@
+/* Styles pour le corps de la page */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+    text-align: center; /* Centrer le contenu */
+}
+
+/* Style pour le conteneur principal */
+div {
+    max-width: 400px;
+    margin: 50px auto; /* Centrer verticalement */
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style pour les titres */
+h1 {
+    color: red; /* Texte en rouge */
+}
+
+/* Style pour les paragraphes */
+p {
+    margin: 10px 0;
+}
+

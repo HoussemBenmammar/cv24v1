@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Error</title>
+    <link rel="stylesheet" href="/css/error.css"> <!-- Link to your CSS file -->
+</head>
+<body>
+    <div>
+        <h1>Error</h1>
+        <div>
+            <p>Erreur ID: <span th:text="${error.id}"></span></p>
+            <p>Status: <span th:text="${error.status}"></span></p>
+            <p>Message: <span th:text="${error.message}"></span></p>
+        </div>
+    </div>
+</body>
+</html>

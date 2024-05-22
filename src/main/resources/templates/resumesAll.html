@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Détails du CV</title>
+    <link rel="stylesheet" href="/css/resumesAll.css">      
+</head>
+<body>
+    <div class="container">
+        <h1>Détails du CV</h1>
+        <div>
+            <h2>Identité</h2>
+            <p>Nom: <span th:text="${resume.identite.nom + ' ' + resume.identite.prenom}"></span></p>
+            <p>Genre: <span th:text="${resume.identite.genre}"></span></p>
+            <p>Email: <span th:text="${resume.identite.mel}"></span></p>
+            <p>Téléphone: <span th:text="${resume.identite.tel}"></span></p>
+        </div>
+        <div>
+            <h2>Objectif</h2>
+            <p>Statut: <span th:text="${resume.objectif.statut}"></span></p>
+            <p>Description: <span th:text="${resume.objectif.description}"></span></p>
+        </div>
+        <div>
+            <h2>Expérience Professionnelle</h2>
+            <ul>
+                <li th:each="exp : ${resume.experiences}">
+                    <p th:text="${exp.title + ' de ' + exp.startDate + ' à ' + exp.endDate}"></p>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <h2>Compétences</h2>
+            <ul>
+                <li th:each="edu : ${resume.competences.education}">
+                    <p th:text="${edu.institute + ', ' + edu.level + ', diplômé(e) en ' + edu.date}"></p>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <h2>Compétences Additionnelles</h2>
+            <ul>
+                <li th:each="lang : ${resume.divers.languages}">
+                    <p th:text="${'Langue: ' + lang.language + ', Niveau: ' + lang.level}"></p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
