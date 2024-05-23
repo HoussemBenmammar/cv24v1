@@ -94,9 +94,10 @@ public class AllResumeDTO {
 
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class Objectif {
-        @XmlElement(name = "statut", namespace = "http://univ.fr/cv24")
+        @XmlAttribute(name = "statut")
         private String statut;
-        @XmlElement(name = "description", namespace = "http://univ.fr/cv24")
+
+        @XmlValue  // Utilisez XmlValue pour capturer le contenu textuel de l'élément
         private String description;
 
         // Constructors
@@ -114,6 +115,7 @@ public class AllResumeDTO {
         public String getDescription() { return description; }
         public void setDescription(String description) { this.description = description; }
     }
+
 
     // ExperienceDTO nested class
     @XmlAccessorType(XmlAccessType.FIELD)
@@ -150,10 +152,8 @@ public class AllResumeDTO {
     // Competences nested class
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class Competences {
-        @XmlElementWrapper(name = "diplomes", namespace = "http://univ.fr/cv24")
         @XmlElement(name = "diplome", namespace = "http://univ.fr/cv24")
         private List<EducationDTO> education;
-        @XmlElementWrapper(name = "certifications", namespace = "http://univ.fr/cv24")
         @XmlElement(name = "certif", namespace = "http://univ.fr/cv24")
         private List<CertificationDTO> certifications;
 
@@ -176,10 +176,9 @@ public class AllResumeDTO {
     // Divers nested class
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class Divers {
-        @XmlElementWrapper(name = "langues", namespace = "http://univ.fr/cv24")
+        // @XmlElementWrapper(name = "divers", namespace = "http://univ.fr/cv24")
         @XmlElement(name = "lv", namespace = "http://univ.fr/cv24")
         private List<LanguageDTO> languages;
-        @XmlElementWrapper(name = "autres", namespace = "http://univ.fr/cv24")
         @XmlElement(name = "autre", namespace = "http://univ.fr/cv24")
         private List<OtherDTO> others;
 

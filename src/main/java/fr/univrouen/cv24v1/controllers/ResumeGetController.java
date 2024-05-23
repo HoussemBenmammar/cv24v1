@@ -27,8 +27,8 @@ public class ResumeGetController {
     public List<ResumeDTO> getAllResumesXml() {
         return resumeService.getAllResumes();
     }
-
-    @GetMapping(produces = MediaType.TEXT_HTML_VALUE)
+    
+    @GetMapping(value = "/resume", produces = MediaType.TEXT_HTML_VALUE)
     public String getAllResumesHtml(Model model) {
         List<ResumeDTO> resumes = resumeService.getAllResumes();
         model.addAttribute("resumes", resumes);

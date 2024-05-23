@@ -180,6 +180,7 @@ public class ResumeService {
 
         // Vérifiez si Objectif est null et initialisez-le si nécessaire
         if (dto.getObjectif() != null) {
+           System.out.print("dkhall hna f objectf");
             Resume.Objectif objectif = new Resume.Objectif();
             objectif.setDescription(dto.getObjectif().getDescription());
             objectif.setStatut(dto.getObjectif().getStatut());
@@ -202,10 +203,10 @@ public class ResumeService {
         // Vérifiez si Competences est null et initialisez-le si nécessaire
         if (dto.getCompetences() != null) {
             Resume.Competences competences = new Resume.Competences();
+            List<Resume.Diplome> diplomes = new ArrayList<>();
             
             // Vérifier si la liste education n'est pas null et itérer si elle contient des éléments
             if (dto.getCompetences().getEducation() != null) {
-                List<Resume.Diplome> diplomes = new ArrayList<>();
                 for (EducationDTO educationDTO : dto.getCompetences().getEducation()) {
                     Resume.Diplome diplome = new Resume.Diplome();
                     diplome.setDate(educationDTO.getDate());
