@@ -3,6 +3,11 @@ package fr.univrouen.cv24v1.service;
 import fr.univrouen.cv24v1.models.Resume;
 import fr.univrouen.cv24v1.dto.ResumeDTO;
 import fr.univrouen.cv24v1.dto.AllResumeDTO;
+import fr.univrouen.cv24v1.dto.AllResumeDTO.CertificationDTO;
+import fr.univrouen.cv24v1.dto.AllResumeDTO.EducationDTO;
+import fr.univrouen.cv24v1.dto.AllResumeDTO.ExperienceDTO;
+import fr.univrouen.cv24v1.dto.AllResumeDTO.LanguageDTO;
+import fr.univrouen.cv24v1.dto.AllResumeDTO.OtherDTO;
 import fr.univrouen.cv24v1.repository.ResumeRepository;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
@@ -17,6 +22,7 @@ import com.ctc.wstx.shaded.msv.org_isorelax.verifier.Schema;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -117,10 +123,9 @@ public class ResumeService {
         AllResumeDTO resumeDto = convertXmlToDto(resumeXml);
 
         if (isDuplicate(resumeDto)) {
-            throw new IllegalStateException("Duplicate resume found");
+            throw new IllegalStateException("CV déjà inséré (DUPLICATED)");
         }
         
-
         Resume resume = convertDtoToEntity(resumeDto); // Convert DTO to entity before saving
         Resume savedResume = resumeRepository.save(resume);
         return convertEntityToDto(savedResume); // Convert entity back to DTO to return
@@ -145,16 +150,95 @@ public class ResumeService {
         return (AllResumeDTO) unmarshaller.unmarshal(new StringReader(xml));
     }
     
- // Method to convert DTO to Entity
     private Resume convertDtoToEntity(AllResumeDTO dto) {
-    	System.out.println("dkhall m dto l entiti");
         Resume resume = new Resume();
-        resume.getIdentite().setGenre(dto.getIdentite().getGenre());
-        resume.getIdentite().setNom(dto.getIdentite().getNom());
-        resume.getIdentite().setPrenom(dto.getIdentite().getPrenom());
-        resume.getIdentite().setTel(dto.getIdentite().getTel());
-        resume.getIdentite().setMel(dto.getIdentite().getMel());
-        // Continue mapping all other fields similarly
+        
+        // Vérifiez si Identite est null et initialisez-le si nécessaire
+        if (dto.getIdentite() != null) {
+            Resume.Identite identite = new Resume.Identite();
+            identite.setGenre(dto.getIdentite().getGenre());
+            identite.setNom(dto.getIdentite().getNom());
+            identite.setPrenom(dto.getIdentite().getPrenom());
+            identite.setTel(dto.getIdentite().getTel());
+            identite.setMel(dto.getIdentite().getMel());
+            resume.setIdentite(identite);
+        }
+
+        // Vérifiez si Objectif est null et initialisez-le si nécessaire
+        if (dto.getObjectif() != null) {
+            Resume.Objectif objectif = new Resume.Objectif();
+            objectif.setDescription(dto.getObjectif().getDescription());
+            objectif.setStatut(dto.getObjectif().getStatut());
+            resume.setObjectif(objectif);
+        }
+
+        // Vérifiez si Prof est null et initialisez-le si nécessaire
+        if (dto.getExperiences() != null) {
+            List<Resume.Prof> profs = new ArrayList<>();
+            for (ExperienceDTO experienceDTO : dto.getExperiences()) {
+                Resume.Prof prof = new Resume.Prof();
+                prof.setDatedeb(experienceDTO.getStartDate());
+                prof.setDatefin(experienceDTO.getEndDate());
+                prof.setTitre(experienceDTO.getTitle());
+                profs.add(prof);
+            }
+            resume.setProf(profs);
+        }
+
+        // Vérifiez si Competences est null et initialisez-le si nécessaire
+        if (dto.getCompetences() != null) {
+            Resume.Competences competences = new Resume.Competences();
+            
+            List<Resume.Diplome> diplomes = new ArrayList<>();
+            for (EducationDTO educationDTO : dto.getCompetences().getEducation()) {
+                Resume.Diplome diplome = new Resume.Diplome();
+                diplome.setDate(educationDTO.getDate());
+                diplome.setInstitut(educationDTO.getInstitute());
+                diplome.setNiveau(educationDTO.getLevel());
+                diplomes.add(diplome);
+            }
+            competences.setDiplomes(diplomes);
+
+            List<Resume.Certification> certifications = new ArrayList<>();
+            for (CertificationDTO certificationDTO : dto.getCompetences().getCertifications()) {
+                Resume.Certification certification = new Resume.Certification();
+                certification.setDatedeb(certificationDTO.getStartDate());
+                certification.setDatefin(certificationDTO.getEndDate());
+                certification.setTitre(certificationDTO.getTitle());
+                certifications.add(certification);
+            }
+            competences.setCertifications(certifications);
+
+            resume.setCompetences(competences);
+        }
+
+        // Vérifiez si Divers est null et initialisez-le si nécessaire
+        if (dto.getDivers() != null) {
+            Resume.Divers divers = new Resume.Divers();
+            
+            List<Resume.Langue> langues = new ArrayList<>();
+            for (LanguageDTO languageDTO : dto.getDivers().getLanguages()) {
+                Resume.Langue langue = new Resume.Langue();
+                langue.setLang(languageDTO.getLanguage());
+                langue.setCert(languageDTO.getCertification());
+                langue.setNivs(languageDTO.getLevel());
+                langues.add(langue);
+            }
+            divers.setLangues(langues);
+
+            List<Resume.Autre> autres = new ArrayList<>();
+            for (OtherDTO otherDTO : dto.getDivers().getOthers()) {
+                Resume.Autre autre = new Resume.Autre();
+                autre.setTitre(otherDTO.getTitle());
+                autre.setComment(otherDTO.getComment());
+                autres.add(autre);
+            }
+            divers.setAutres(autres);
+
+            resume.setDivers(divers);
+        }
+
+        // Retourne le Resume complété
         return resume;
     }
 

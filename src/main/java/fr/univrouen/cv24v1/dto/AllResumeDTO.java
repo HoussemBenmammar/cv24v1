@@ -1,8 +1,7 @@
 package fr.univrouen.cv24v1.dto;
 
-import javax.xml.bind.annotation.*;
+import jakarta.xml.bind.annotation.*;
 import java.util.List;
-
 
 @XmlRootElement(name = "cv24", namespace = "http://univ.fr/cv24")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -52,6 +51,7 @@ public class AllResumeDTO {
     public void setDivers(Divers divers) { this.divers = divers; }
 
     // Identite nested class
+    @XmlAccessorType(XmlAccessType.FIELD)
     public static class Identite {
         @XmlElement(name = "genre", namespace = "http://univ.fr/cv24")
         private String genre;
@@ -92,11 +92,11 @@ public class AllResumeDTO {
         public void setMel(String mel) { this.mel = mel; }
     }
 
-    // Objectif nested class
+    @XmlAccessorType(XmlAccessType.FIELD)
     public static class Objectif {
-        @XmlAttribute(name = "statut", required = true)
+        @XmlElement(name = "statut", namespace = "http://univ.fr/cv24")
         private String statut;
-        @XmlValue
+        @XmlElement(name = "description", namespace = "http://univ.fr/cv24")
         private String description;
 
         // Constructors
@@ -116,6 +116,7 @@ public class AllResumeDTO {
     }
 
     // ExperienceDTO nested class
+    @XmlAccessorType(XmlAccessType.FIELD)
     public static class ExperienceDTO {
         @XmlElement(name = "datedeb", namespace = "http://univ.fr/cv24")
         private String startDate;
@@ -143,59 +144,11 @@ public class AllResumeDTO {
         public String getTitle() { return title; }
         public void setTitle(String title) { this.title = title; }
     }
-    
-    public static class EducationDTO {
-        @XmlElement(name = "date", namespace = "http://univ.fr/cv24")
-        private String date;
-        @XmlElement(name = "institut", namespace = "http://univ.fr/cv24")
-        private String institute;
-        @XmlAttribute(name = "niveau")
-        private int level;
-        
-        public EducationDTO(String date, String institute, int level) {
-            this.date = date;
-            this.institute = institute;
-            this.level = level;
-        }
 
-        // Getters and setters
-        public String getDate() { return date; }
-        public void setDate(String date) { this.date = date; }
-
-        public String getInstitute() { return institute; }
-        public void setInstitute(String institute) { this.institute = institute; }
-
-        public int getLevel() { return level; }
-        public void setLevel(int level) { this.level = level; }
-    }
-
-    public static class CertificationDTO {
-        @XmlElement(name = "datedeb", namespace = "http://univ.fr/cv24")
-        private String startDate;
-        @XmlElement(name = "datefin", namespace = "http://univ.fr/cv24")
-        private String endDate;
-        @XmlElement(name = "titre", namespace = "http://univ.fr/cv24")
-        private String title;
-        
-        public CertificationDTO(String startDate, String endDate, String title) {
-            this.startDate = startDate;
-            this.endDate = endDate;
-            this.title = title;
-        }
-
-        // Getters and setters
-        public String getStartDate() { return startDate; }
-        public void setStartDate(String startDate) { this.startDate = startDate; }
-
-        public String getEndDate() { return endDate; }
-        public void setEndDate(String endDate) { this.endDate = endDate; }
-
-        public String getTitle() { return title; }
-        public void setTitle(String title) { this.title = title; }
-    }
-
+    // Other nested classes (EducationDTO, CertificationDTO, LanguageDTO, and OtherDTO) would follow a similar pattern.
 
     // Competences nested class
+    @XmlAccessorType(XmlAccessType.FIELD)
     public static class Competences {
         @XmlElementWrapper(name = "diplomes", namespace = "http://univ.fr/cv24")
         @XmlElement(name = "diplome", namespace = "http://univ.fr/cv24")
@@ -219,54 +172,9 @@ public class AllResumeDTO {
         public List<CertificationDTO> getCertifications() { return certifications; }
         public void setCertifications(List<CertificationDTO> certifications) { this.certifications = certifications; }
     }
-    
-    public static class LanguageDTO {
-        @XmlAttribute(name = "lang")
-        private String language;
-        @XmlAttribute(name = "cert")
-        private String certification;
-        @XmlAttribute(name = "nivs")
-        private String level;
-        
-        public LanguageDTO(String language, String certification, String level) {
-            this.language = language;
-            this.certification = certification;
-            this.level = level;
-        }
-
-        // Getters and setters
-        public String getLanguage() { return language; }
-        public void setLanguage(String language) { this.language = language; }
-
-        public String getCertification() { return certification; }
-        public void setCertification(String certification) { this.certification = certification; }
-
-        public String getLevel() { return level; }
-        public void setLevel(String level) { this.level = level; }
-    }
-    
-    public static class OtherDTO {
-        @XmlAttribute(name = "titre", namespace = "http://univ.fr/cv24")
-        private String title;
-        @XmlAttribute(name = "comment", namespace = "http://univ.fr/cv24")
-        private String comment;
-        
-        public OtherDTO(String title, String comment) {
-            this.title = title;
-            this.comment = comment;
-        }
-
-        // Getters and setters
-        public String getTitle() { return title; }
-        public void setTitle(String title) { this.title = title; }
-
-        public String getComment() { return comment; }
-        public void setComment(String comment) { this.comment = comment; }
-    }
-
-
 
     // Divers nested class
+    @XmlAccessorType(XmlAccessType.FIELD)
     public static class Divers {
         @XmlElementWrapper(name = "langues", namespace = "http://univ.fr/cv24")
         @XmlElement(name = "lv", namespace = "http://univ.fr/cv24")
@@ -291,6 +199,117 @@ public class AllResumeDTO {
         public void setOthers(List<OtherDTO> others) { this.others = others; }
     }
 
-    // Additional nested classes like EducationDTO, CertificationDTO, LanguageDTO, and OtherDTO would follow the same pattern, using JAXB annotations to define the XML structure.
-}
+    // EducationDTO nested class
+    @XmlAccessorType(XmlAccessType.FIELD)
+    public static class EducationDTO {
+        @XmlElement(name = "date", namespace = "http://univ.fr/cv24")
+        private String date;
+        @XmlElement(name = "institut", namespace = "http://univ.fr/cv24")
+        private String institute;
+        @XmlAttribute(name = "niveau")
+        private int level;
 
+        // Constructors
+        public EducationDTO() {}
+
+        public EducationDTO(String date, String institute, int level) {
+            this.date = date;
+            this.institute = institute;
+            this.level = level;
+        }
+
+        // Getters and setters
+        public String getDate() { return date; }
+        public void setDate(String date) { this.date = date; }
+
+        public String getInstitute() { return institute; }
+        public void setInstitute(String institute) { this.institute = institute; }
+
+        public int getLevel() { return level; }
+        public void setLevel(int level) { this.level = level; }
+    }
+
+    // CertificationDTO nested class
+    @XmlAccessorType(XmlAccessType.FIELD)
+    public static class CertificationDTO {
+        @XmlElement(name = "datedeb", namespace = "http://univ.fr/cv24")
+        private String startDate;
+        @XmlElement(name = "datefin", namespace = "http://univ.fr/cv24")
+        private String endDate;
+        @XmlElement(name = "titre", namespace = "http://univ.fr/cv24")
+        private String title;
+
+        // Constructors
+        public CertificationDTO() {}
+
+        public CertificationDTO(String startDate, String endDate, String title) {
+            this.startDate = startDate;
+            this.endDate = endDate;
+            this.title = title;
+        }
+
+        // Getters and setters
+        public String getStartDate() { return startDate; }
+        public void setStartDate(String startDate) { this.startDate = startDate; }
+
+        public String getEndDate() { return endDate; }
+        public void setEndDate(String endDate) { this.endDate = endDate; }
+
+        public String getTitle() { return title; }
+        public void setTitle(String title) { this.title = title; }
+    }
+
+    // LanguageDTO nested class
+    @XmlAccessorType(XmlAccessType.FIELD)
+    public static class LanguageDTO {
+        @XmlAttribute(name = "lang")
+        private String language;
+        @XmlAttribute(name = "cert")
+        private String certification;
+        @XmlAttribute(name = "nivs")
+        private String level;
+
+        // Constructors
+        public LanguageDTO() {}
+
+        public LanguageDTO(String language, String certification, String level) {
+            this.language = language;
+            this.certification = certification;
+            this.level = level;
+        }
+
+        // Getters and setters
+        public String getLanguage() { return language; }
+        public void setLanguage(String language) { this.language = language; }
+
+        public String getCertification() { return certification; }
+        public void setCertification(String certification) { this.certification = certification; }
+
+        public String getLevel() { return level; }
+        public void setLevel(String level) { this.level = level; }
+    }
+
+    // OtherDTO nested class
+    @XmlAccessorType(XmlAccessType.FIELD)
+    public static class OtherDTO {
+        @XmlAttribute(name = "titre", namespace = "http://univ.fr/cv24")
+        private String title;
+        @XmlAttribute(name = "comment", namespace = "http://univ.fr/cv24")
+        private String comment;
+
+        // Constructors
+        public OtherDTO() {}
+
+        public OtherDTO(String title, String comment) {
+            this.title = title;
+            this.comment = comment;
+        }
+
+        // Getters and setters
+        public String getTitle() { return title; }
+        public void setTitle(String title) { this.title = title; }
+
+        public String getComment() { return comment; }
+        public void setComment(String comment) { this.comment = comment; }
+    }
+}

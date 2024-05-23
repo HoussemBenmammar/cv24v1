@@ -29,11 +29,11 @@ public class ResumePostController {
             AllResumeDTO insertedResume = resumeService.insertResume(resumeXml);
             return ResponseEntity.ok(insertedResume);
         } catch (SAXException | IOException e) {
-            //return ResponseEntity.badRequest().body("<error><status>ERROR</status><detail>INVALID ddsqdsq</detail></error>");
-            return ResponseEntity.badRequest().body("mechy valid" +e);
+            return ResponseEntity.badRequest().body("<error><status>ERROR</status><detail> INVALID " +  e.getMessage() +"</detail></error>");
+            
         } catch (Exception e) {
-            //return ResponseEntity.internalServerError().body("<error><status>ERROR</status><detail>UNKNOWN</detail></error>");
-        	return ResponseEntity.internalServerError().body("unkonwn"+e);
+            return ResponseEntity.internalServerError().body("<error><status>ERREUR</status><detail>" + e.getMessage() + "</detail></error>");
         }
+
     }
 }
