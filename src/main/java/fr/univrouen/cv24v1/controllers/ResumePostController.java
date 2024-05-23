@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.xml.sax.SAXException;
 
 import fr.univrouen.cv24v1.dto.AllResumeDTO;
+import fr.univrouen.cv24v1.dto.ResumeInsertionResultDTO;
 import fr.univrouen.cv24v1.service.ResumeService;
 
 import java.io.IOException;
@@ -22,18 +23,19 @@ public class ResumePostController {
         this.resumeService = resumeService;
     }
 
+    
     @PostMapping(value = "/insert", consumes = "application/xml", produces = "application/xml")
     public ResponseEntity<?> insertResume(@RequestBody String resumeXml) {
         try {
-            resumeService.validateResume(resumeXml);
-            AllResumeDTO insertedResume = resumeService.insertResume(resumeXml);
-            return ResponseEntity.ok(insertedResume);
+        	resumeService.validateResume(resumeXml);
+            ResumeInsertionResultDTO result = resumeService.insertResume(resumeXml);
+            String responseXml = "<insertResponse><id>" + result.getId() + "</id><status>INSERTED</status></insertResponse>";
+            return ResponseEntity.ok(responseXml);
         } catch (SAXException | IOException e) {
-            return ResponseEntity.badRequest().body("<error><status>ERROR</status><detail> INVALID " +  e.getMessage() +"</detail></error>");
-            
+            return ResponseEntity.badRequest().body("<error><status>ERROR</status><detail> XML INVALIDE " +  e.getMessage() +"</detail></error>");
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("<error><status>ERREUR</status><detail>" + e.getMessage() + "</detail></error>");
+            return ResponseEntity.internalServerError().body("<error><status>ERROR</status><detail>" + e.getMessage() + "</detail></error>");
         }
-
     }
+
 }

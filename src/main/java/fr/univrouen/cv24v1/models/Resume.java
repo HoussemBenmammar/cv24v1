@@ -8,7 +8,8 @@ import java.util.List;
 @Document(collection = "resumes")
 public class Resume {
     @Id
-    private String id;
+    private int id; 
+    private static int compteur = 1;
     private Identite identite;
     private Objectif objectif;
     private List<Prof> prof;
@@ -16,13 +17,15 @@ public class Resume {
     private Divers divers;
 
     // Constructors, Getters and Setters
-    public Resume() {}
+    public Resume() {
+    	 this.id = compteur++; 
+    }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

@@ -12,7 +12,7 @@ public class HomeController {
         model.addAttribute("projectName", "CV24v1");
         model.addAttribute("versionNumber", "1.0");
         model.addAttribute("teamMembers", "Benmammar, Mohamed Houssam");
-        model.addAttribute("universityLogo", "/assets/images/Université_de_Rouen");  // Assuming the logo is stored in the static/images folder
+        model.addAttribute("universityLogo", "/images/Université_de_Rouen.png");  
         return "home";
     }
 }

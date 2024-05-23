@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Aide du Service CV24</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        h1, h2 { color: #333366; }
+        li { margin-bottom: 10px; }
+        ul { list-style-type: none; }
+    </style>
+</head>
+<body>
+    <h1>Service CV24 - Aide et Documentation API</h1>
+    <p>Cette page contient des informations détaillées sur les endpoints disponibles dans le service REST CV24.</p>
+
+    <h2>Endpoints</h2>
+    <ul>
+        <li>
+            <h3>Page d’accueil</h3>
+            <p><strong>URL:</strong> /</p>
+            <p><strong>Méthode:</strong> GET</p>
+            <p><strong>Description:</strong> Affiche la page d’accueil du projet.</p>
+        </li>
+        <li>
+            <h3>Aide</h3>
+            <p><strong>URL:</strong> /help</p>
+            <p><strong>Méthode:</strong> GET</p>
+            <p><strong>Description:</strong> Affiche cette page d'aide.</p>
+        </li>
+        <li>
+            <h3>Liste des CV (Format XML)</h3>
+            <p><strong>URL:</strong> /cv24/resume/xml</p>
+            <p><strong>Méthode:</strong> GET</p>
+            <p><strong>Description:</strong> Affiche la liste des CV en format XML.</p>
+        </li>
+        <li>
+            <h3>Liste des CV (Format HTML)</h3>
+            <p><strong>URL:</strong> /cv24/resume</p>
+            <p><strong>Méthode:</strong> GET</p>
+            <p><strong>Description:</strong> Affiche la liste des CV en format HTML.</p>
+        </li>
+        <li>
+            <h3>Détail d’un CV (Format XML)</h3>
+            <p><strong>URL:</strong> /cv24/xml?id=&lt;id&gt;</p>
+            <p><strong>Méthode:</strong> GET</p>
+            <p><strong>Description:</strong> Affiche le contenu complet du CV dont l’identifiant est transmis en paramètre en format XML.</p>
+        </li>
+        <li>
+            <h3>Détail d’un CV (Format HTML)</h3>
+            <p><strong>URL:</strong> /cv24/html?id=&lt;id&gt;</p>
+            <p><strong>Méthode:</strong> GET</p>
+            <p><strong>Description:</strong> Affiche le contenu complet du CV dont l’identifiant est transmis en paramètre en format HTML.</p>
+        </li>
+        <li>
+            <h3>Ajout d’un CV</h3>
+            <p><strong>URL:</strong> /cv24/insert</p>
+            <p><strong>Méthode:</strong> POST</p>
+            <p><strong>Description:</strong> Ajoute un CV dans la base de données après validation contre le schéma XSD.</p>
+        </li>
+        <li>
+            <h3>Suppression d’un CV</h3>
+            <p><strong>URL:</strong> /cv24/delete</p>
+            <p><strong>Méthode:</strong> DELETE</p>
+            <p><strong>Description:</strong> Supprime le CV dont l’identifiant est spécifié.</p>
+        </li>
+    </ul>
+</body>
+</html>

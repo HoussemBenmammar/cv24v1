@@ -2,6 +2,7 @@ package fr.univrouen.cv24v1.service;
 
 import fr.univrouen.cv24v1.models.Resume;
 import fr.univrouen.cv24v1.dto.ResumeDTO;
+import fr.univrouen.cv24v1.dto.ResumeInsertionResultDTO;
 import fr.univrouen.cv24v1.dto.AllResumeDTO;
 import fr.univrouen.cv24v1.dto.AllResumeDTO.CertificationDTO;
 import fr.univrouen.cv24v1.dto.AllResumeDTO.EducationDTO;
@@ -119,7 +120,7 @@ public class ResumeService {
     }
 
     
-    public AllResumeDTO insertResume(String resumeXml) throws JAXBException {
+    /* public AllResumeDTO insertResume(String resumeXml) throws JAXBException {
         AllResumeDTO resumeDto = convertXmlToDto(resumeXml);
 
         if (isDuplicate(resumeDto)) {
@@ -130,8 +131,21 @@ public class ResumeService {
         Resume savedResume = resumeRepository.save(resume);
         return convertEntityToDto(savedResume); // Convert entity back to DTO to return
     }
-
+    */
     
+    public ResumeInsertionResultDTO insertResume(String resumeXml) throws JAXBException {
+        AllResumeDTO resumeDto = convertXmlToDto(resumeXml);
+
+        if (isDuplicate(resumeDto)) {
+            throw new IllegalStateException("CV déjà inséré (DUPLICATED)");
+        }
+        
+        Resume resume = convertDtoToEntity(resumeDto);
+        Resume savedResume = resumeRepository.save(resume);
+        
+        return new ResumeInsertionResultDTO(convertEntityToDto(savedResume), savedResume.getId());
+    }
+     
     
     private boolean isDuplicate(AllResumeDTO resumeDto) {
         // Implement logic to check if an entry with the same identity details already exists
@@ -189,54 +203,74 @@ public class ResumeService {
         if (dto.getCompetences() != null) {
             Resume.Competences competences = new Resume.Competences();
             
-            List<Resume.Diplome> diplomes = new ArrayList<>();
-            for (EducationDTO educationDTO : dto.getCompetences().getEducation()) {
-                Resume.Diplome diplome = new Resume.Diplome();
-                diplome.setDate(educationDTO.getDate());
-                diplome.setInstitut(educationDTO.getInstitute());
-                diplome.setNiveau(educationDTO.getLevel());
-                diplomes.add(diplome);
+            // Vérifier si la liste education n'est pas null et itérer si elle contient des éléments
+            if (dto.getCompetences().getEducation() != null) {
+                List<Resume.Diplome> diplomes = new ArrayList<>();
+                for (EducationDTO educationDTO : dto.getCompetences().getEducation()) {
+                    Resume.Diplome diplome = new Resume.Diplome();
+                    diplome.setDate(educationDTO.getDate());
+                    diplome.setInstitut(educationDTO.getInstitute());
+                    diplome.setNiveau(educationDTO.getLevel());
+                    diplomes.add(diplome);
+                }
+                competences.setDiplomes(diplomes);
+            } else {
+                // Initialiser diplomes à une liste vide si getEducation() est null
+                competences.setDiplomes(new ArrayList<>());
             }
-            competences.setDiplomes(diplomes);
 
-            List<Resume.Certification> certifications = new ArrayList<>();
-            for (CertificationDTO certificationDTO : dto.getCompetences().getCertifications()) {
-                Resume.Certification certification = new Resume.Certification();
-                certification.setDatedeb(certificationDTO.getStartDate());
-                certification.setDatefin(certificationDTO.getEndDate());
-                certification.setTitre(certificationDTO.getTitle());
-                certifications.add(certification);
+            // Vérifier si la liste certifications n'est pas null et itérer si elle contient des éléments
+            if (dto.getCompetences().getCertifications() != null) {
+                List<Resume.Certification> certifications = new ArrayList<>();
+                for (CertificationDTO certificationDTO : dto.getCompetences().getCertifications()) {
+                    Resume.Certification certification = new Resume.Certification();
+                    certification.setDatedeb(certificationDTO.getStartDate());
+                    certification.setDatefin(certificationDTO.getEndDate());
+                    certification.setTitre(certificationDTO.getTitle());
+                    certifications.add(certification);
+                }
+                competences.setCertifications(certifications);
+            } else {
+                // Initialiser certifications à une liste vide si getCertifications() est null
+                competences.setCertifications(new ArrayList<>());
             }
-            competences.setCertifications(certifications);
 
             resume.setCompetences(competences);
         }
+
 
         // Vérifiez si Divers est null et initialisez-le si nécessaire
         if (dto.getDivers() != null) {
             Resume.Divers divers = new Resume.Divers();
             
+            // Vérifier si la liste de langues n'est pas null avant de l'itérer
             List<Resume.Langue> langues = new ArrayList<>();
-            for (LanguageDTO languageDTO : dto.getDivers().getLanguages()) {
-                Resume.Langue langue = new Resume.Langue();
-                langue.setLang(languageDTO.getLanguage());
-                langue.setCert(languageDTO.getCertification());
-                langue.setNivs(languageDTO.getLevel());
-                langues.add(langue);
+            if (dto.getDivers().getLanguages() != null) {
+                for (LanguageDTO languageDTO : dto.getDivers().getLanguages()) {
+                    Resume.Langue langue = new Resume.Langue();
+                    langue.setLang(languageDTO.getLanguage());
+                    langue.setCert(languageDTO.getCertification());
+                    langue.setNivs(languageDTO.getLevel());
+                    langues.add(langue);
+                }
             }
             divers.setLangues(langues);
 
+            // Vérifier si la liste d'autres informations n'est pas null avant de l'itérer
             List<Resume.Autre> autres = new ArrayList<>();
-            for (OtherDTO otherDTO : dto.getDivers().getOthers()) {
-                Resume.Autre autre = new Resume.Autre();
-                autre.setTitre(otherDTO.getTitle());
-                autre.setComment(otherDTO.getComment());
-                autres.add(autre);
+            if (dto.getDivers().getOthers() != null) {
+                for (OtherDTO otherDTO : dto.getDivers().getOthers()) {
+                    Resume.Autre autre = new Resume.Autre();
+                    autre.setTitre(otherDTO.getTitle());
+                    autre.setComment(otherDTO.getComment());
+                    autres.add(autre);
+                }
             }
             divers.setAutres(autres);
 
             resume.setDivers(divers);
         }
+
 
         // Retourne le Resume complété
         return resume;
@@ -255,6 +289,14 @@ public class ResumeService {
         dto.setIdentite(identite);
         // Continue mapping all other fields similarly
         return dto;
+    }
+    
+    public boolean deleteResume(String id) {
+        if (resumeRepository.existsById(id)) {
+            resumeRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
     
