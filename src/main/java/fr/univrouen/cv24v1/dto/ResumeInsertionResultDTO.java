@@ -2,11 +2,11 @@ package fr.univrouen.cv24v1.dto;
 
 public class ResumeInsertionResultDTO {
     private AllResumeDTO resumeDTO;
-    private int id;
+    private String id;
 
-    public ResumeInsertionResultDTO(AllResumeDTO resumeDTO, int i) {
+    public ResumeInsertionResultDTO(AllResumeDTO resumeDTO, String string) {
         this.resumeDTO = resumeDTO;
-        this.id = i;
+        this.id = string;
     }
 
     // Getters
@@ -14,7 +14,7 @@ public class ResumeInsertionResultDTO {
         return resumeDTO;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 }

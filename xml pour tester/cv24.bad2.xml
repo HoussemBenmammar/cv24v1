@@ -1,0 +1,31 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+<cv24:cv24 xmlns:cv24="http://univ.fr/cv24" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://univ.fr/cv24 cv24.tp1.xsd ">
+    <identite>
+        <!-- 'genre' doit être le premier élément dans 'identite', 'nom' vient après -->
+        <prenom>John</prenom>
+        <nom>DO3E</nom> <!-- Le nom contient un chiffre, ce qui pourrait être invalide selon le pattern de 'string32maj' -->
+        <genre>M.</genre>
+        <!-- Il y a un élément 'email' qui n'est pas défini dans le schéma -->
+        <email>john.doe@example.com</email>
+        <mel>john.doe(at)email.com</mel> <!-- Format d'email incorrect, devrait être 'john.doe@example.com' -->
+    </identite>
+    <competences>
+        <!-- Il y a trop de 'diplome' éléments selon le schéma, qui impose un maxOccurs de 5 -->
+        <diplome niveau="2">Informatique</diplome>
+        <diplome niveau="2">Mathématiques</diplome>
+        <diplome niveau="2">Physique</diplome>
+        <diplome niveau="2">Chimie</diplome>
+        <diplome niveau="2">Biologie</diplome>
+        <diplome niveau="2">Littérature</diplome>
+        <diplome niveau="2">Philosophie</diplome>
+    </competences>
+    <!-- 'certif' devrait être dans 'competences', pas à la racine -->
+    <certif>
+        <titre>Certification Invalide</titre> <!-- 'titre' n'est pas défini pour être à ce niveau -->
+    </certif>
+    <divers>
+        <!-- 'lv' est manquant alors que son occurrence minimale est de 1 selon le schéma -->
+        <autre titre="Interets">Musique et lecture</autre> <!-- 'autre' ne doit pas contenir de texte -->
+    </divers>
+</cv24>

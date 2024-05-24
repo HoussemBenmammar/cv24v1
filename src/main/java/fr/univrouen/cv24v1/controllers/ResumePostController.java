@@ -29,7 +29,7 @@ public class ResumePostController {
         try {
         	resumeService.validateResume(resumeXml);
             ResumeInsertionResultDTO result = resumeService.insertResume(resumeXml);
-            String responseXml = "<insertResponse><id>" + result.getId() + "</id><status>INSERTED</status></insertResponse>";
+            String responseXml = "<insertResponse><status>INSÉRÉ avec succès</status></insertResponse>";
             return ResponseEntity.ok(responseXml);
         } catch (SAXException | IOException e) {
             return ResponseEntity.badRequest().body("<error><status>ERROR</status><detail> XML INVALIDE " +  e.getMessage() +"</detail></error>");
