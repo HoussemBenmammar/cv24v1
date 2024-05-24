@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.xml.sax.SAXException;
 
 import com.ctc.wstx.shaded.msv.org_isorelax.verifier.Schema;
+import com.google.common.base.Optional;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,7 +44,7 @@ public class ResumeService {
     public List<ResumeDTO> getAllResumes() {
         return resumeRepository.findAll().stream().map(resume -> 
             new ResumeDTO(
-                resume.getId(),
+                resume.getIdResume(),
                 resume.getIdentite().getGenre(),
                 resume.getIdentite().getPrenom(),
                 resume.getIdentite().getNom(),
@@ -299,9 +300,20 @@ public class ResumeService {
         }
         return false;
     }
+    
+    /*public boolean existsByName(String name) {
+        return resumeRepository.existsByName(name);
+    }
+    */
+    
+    public boolean existsByName(String name) {
+        List<Resume> resumes = resumeRepository.findByName(name);
+        return !resumes.isEmpty(); // Returns true if the list is not empty
+    }
+    
+    public Optional<Resume> existsByIdResume(int id) {
+        return resumeRepository.findByIdResume(id);
+    }
 
     
-
-   
-
 }

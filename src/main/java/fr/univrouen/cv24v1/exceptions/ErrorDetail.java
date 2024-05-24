@@ -4,22 +4,23 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "error")
 public class ErrorDetail {
-    private String id;
+    private int id;
     private String status;
     private String message;
 
-    public ErrorDetail(String id, String status, String message) {
-        this.id = id;
+
+
+    public ErrorDetail(int id2, String status, String message) {
+        this.id = id2;
         this.status = status;
         this.message = message;
     }
-
-    // Getters and Setters
-    public String getId() {
+	// Getters and Setters
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
