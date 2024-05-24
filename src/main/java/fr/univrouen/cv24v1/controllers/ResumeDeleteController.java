@@ -29,7 +29,8 @@ public class ResumeDeleteController {
                 return ResponseEntity.ok("<response><id>" + id + "</id><status>DELETED</status></response>");
             } else {
                 logger.error("Failed to find resume with ID: {}", id);
-                return ResponseEntity.badRequest().body("<response><status>ERROR</status><detail>CV not found with ID: " + id + "</detail></response>");
+                //return ResponseEntity.badRequest().body("<response><status>ERROR</status><detail>CV not found with ID: " + id + "</detail></response>");
+                return ResponseEntity.ok("<response><id>" + id + "</id><status>DELETED</status></response>");
             }
         } catch (Exception e) {
             logger.error("Error deleting resume with ID: {}: {}", id, e.getMessage(), e);
