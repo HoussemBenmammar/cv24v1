@@ -1,7 +1,7 @@
 package fr.univrouen.cv24v1.dto;
 
 public class ResumeDTO {
-    private String id;
+    private int id;
     private String genre;
     private String prenom;
     private String nom;
@@ -10,8 +10,8 @@ public class ResumeDTO {
     private String diplomeLePlusEleve;
 
     // Constructors, getters, and setters
-    public ResumeDTO(String id, String genre, String prenom, String nom, String objectif, String statusObjectif, String diplomeLePlusEleve) {
-        this.setId(id);
+    public ResumeDTO(int i, String genre, String prenom, String nom, String objectif, String statusObjectif, String diplomeLePlusEleve) {
+        this.setId(i);
         this.setGenre(genre);
         this.setPrenom(prenom);
         this.setNom(nom);
@@ -20,11 +20,11 @@ public class ResumeDTO {
         this.setDiplomeLePlusEleve(diplomeLePlusEleve);
     }
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

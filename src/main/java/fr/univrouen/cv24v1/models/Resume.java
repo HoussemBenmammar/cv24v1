@@ -8,7 +8,9 @@ import java.util.List;
 @Document(collection = "resumes")
 public class Resume {
     @Id
-    private String id;
+    private String id; 
+    private int idResume;
+    private static int compteur = 1;
     private Identite identite;
     private Objectif objectif;
     private List<Prof> prof;
@@ -16,8 +18,11 @@ public class Resume {
     private Divers divers;
 
     // Constructors, Getters and Setters
-    public Resume() {}
-
+    
+    public Resume() {
+   	 this.idResume= compteur++; 
+   }
+  
     public String getId() {
         return id;
     }
@@ -66,7 +71,15 @@ public class Resume {
         this.divers = divers;
     }
 
-    // Nested Classes
+    public int getIdResume() {
+		return idResume;
+	}
+
+	public void setIdResume(int idResume) {
+		this.idResume = idResume;
+	}
+
+	// Nested Classes
     public static class Identite {
         private String genre;
         private String nom;
